@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "462298400312",
+    "project_id": "maat-movil-notificaciones",
+    "storage_bucket": "maat-movil-notificaciones.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:462298400312:android:f7d3e52d244beb1ea1c8cd",
+        "android_client_info": {
+          "package_name": "com.informes_maat_movil"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "462298400312-ku1vti6jrfh74jodfojs05n7fcphbcmp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.informes_maat_movil",
+            "certificate_hash": "6db6334e8a9348e4f04c1f2d4a600bdf511f4004"
+          }
+        },
+        {
+          "client_id": "462298400312-lbljqre9abfgk4gvl3bmbivj5v8et3pi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjuOTQYfNlGqrly5R2f4v92X_aX6i8TrA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "462298400312-lbljqre9abfgk4gvl3bmbivj5v8et3pi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
