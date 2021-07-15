@@ -14,18 +14,15 @@ class _DrawLateralState extends State<DrawLateral> {
     return Drawer(
       child: Column(
         children: [
-          ListTile(
-            title: Container(
-              child: Image.asset(
-                "assets/slippers.png",
-                width: 100,
-                height: 100,
-              ),
-            ),
-            subtitle: Text(
-              "Informes Comerciales",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 15),
+          SizedBox(
+            height: 20,
+          ),
+          Container(
+            child: Image.asset(
+              "assets/header_raw.png",
+              width: 1000,
+              height: 190,
+              fit: BoxFit.cover,
             ),
           ),
           ListTile(

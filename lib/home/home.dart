@@ -40,8 +40,16 @@ class _HomeAppState extends State<HomeApp> {
   Widget informeFull = SizedBox();
   Widget informeCertificado = SizedBox();
   Widget informeOs10 = SizedBox();
+  Widget texto_fallo = SizedBox();
 
-  SingingCharacter _character = SingingCharacter.simple;
+  int informeSimpleCC = 0;
+  int informeCertificadoCC = 0;
+  int informeConsolidadoCC = 0;
+  int informeFullCC = 0;
+  int informeOs10CC = 0;
+  int informemensajeCC = 0;
+
+  SingingCharacter _character = SingingCharacter.empresarial;
 
   @override
   void initState() {
@@ -107,120 +115,26 @@ class _HomeAppState extends State<HomeApp> {
       var parseJson = json.decode(respuesta.body);
       final estado = parseJson["estado"];
       if (estado == 200) {
-        Widget _info_simpl = (parseJson["informe_simple"] == "true")
-            ? ListTile(
-                selectedTileColor: Color(0xffC41625),
-                title: const Text(
-                  'Informe Simple',
-                  style: TextStyle(fontFamily: "Montserrat-Regular"),
-                ),
-                leading: Radio<SingingCharacter>(
-                  value: SingingCharacter.simple,
-                  groupValue: _character,
-                  onChanged: (value) {
-                    setState(() {
-                      _character = value!;
-                      tipo_informe = "SM";
-                    });
-                  },
-                ),
-              )
-            : SizedBox();
-        Widget _info_consolidado = (parseJson["informe_consolidado"] == "true")
-            ? ListTile(
-                selectedTileColor: Color(0xffC41625),
-                title: const Text(
-                  'Informe Consolidado',
-                  style: TextStyle(fontFamily: "Montserrat-Regular"),
-                ),
-                leading: Radio<SingingCharacter>(
-                  value: SingingCharacter.consolidado,
-                  groupValue: _character,
-                  onChanged: (value) {
-                    setState(() {
-                      _character = value!;
-                      tipo_informe = "C";
-                    });
-                  },
-                ),
-              )
-            : SizedBox();
-        Widget _info_full = (parseJson["informe_full"] == "true")
-            ? ListTile(
-                selectedTileColor: Color(0xffC41625),
-                title: const Text(
-                  'Informe Empresarial',
-                  style: TextStyle(fontFamily: "Montserrat-Regular"),
-                ),
-                leading: Radio<SingingCharacter>(
-                  value: SingingCharacter.empresarial,
-                  groupValue: _character,
-                  onChanged: (value) {
-                    setState(() {
-                      _character = value!;
-                      tipo_informe = "E";
-                    });
-                  },
-                ),
-              )
-            : SizedBox();
-        Widget _info_certificado = (parseJson["informe_certificado"] == "true")
-            ? ListTile(
-                selectedTileColor: Color(0xffC41625),
-                title: const Text(
-                  'Informe Certificado',
-                  style: TextStyle(fontFamily: "Montserrat-Regular"),
-                ),
-                leading: Radio<SingingCharacter>(
-                  value: SingingCharacter.certificado,
-                  groupValue: _character,
-                  onChanged: (value) {
-                    setState(() {
-                      _character = value!;
-                      tipo_informe = "A";
-                    });
-                  },
-                ),
-              )
-            : SizedBox();
-        Widget _info_os10 = (parseJson["informe_os10"] == "true")
-            ? ListTile(
-                selectedTileColor: Color(0xffC41625),
-                title: const Text(
-                  'Informe OS10',
-                  style: TextStyle(fontFamily: "Montserrat-Regular"),
-                ),
-                leading: Radio<SingingCharacter>(
-                  value: SingingCharacter.os10,
-                  groupValue: _character,
-                  onChanged: (value) {
-                    setState(() {
-                      _character = value!;
-                      tipo_informe = "S";
-                    });
-                  },
-                ),
-              )
-            : SizedBox();
-
         setState(() {
-          tipo_informe = "SM";
-          informeSimple = _info_simpl;
-          informeCertificado = _info_certificado;
-          informeConsolidado = _info_consolidado;
-          informeFull = _info_full;
-          informeOs10 = _info_os10;
+          informeSimpleCC = (parseJson["informe_simple"] == "true") ? 1 : 0;
+          informeCertificadoCC =
+              (parseJson["informe_consolidado"] == "true") ? 1 : 0;
+          informeConsolidadoCC = (parseJson["informe_full"] == "true") ? 1 : 0;
+          informeFullCC = (parseJson["informe_certificado"] == "true") ? 1 : 0;
+          informeOs10CC = (parseJson["informe_os10"] == "true") ? 1 : 0;
         });
       } else {
         setState(() {
-          informeSimple = Text(
-            '* Disculpe pero no tiene autorizacion para emitir informes mediante esta plataforma, para mayor informacio debe comunicarce con Soporte tecnico.',
-            style: TextStyle(
-                fontFamily: "Montserrat-Regular", fontWeight: FontWeight.bold),
-          );
+          informemensajeCC = 1;
         });
       }
     }
+  }
+
+  enviarAPI22() {
+    reset_formulario();
+    Alertas.alerta.alerta_informecomercial(
+        context, telefono, "informe no", "se logro", 200);
   }
 
   enviarAPI(String informe, String correo, String telefono_cliente,
@@ -387,6 +301,118 @@ class _HomeAppState extends State<HomeApp> {
   }
 
   Widget formulario() {
+    Widget _info_simpl = (informeSimpleCC == 1)
+        ? ListTile(
+            selectedTileColor: Color(0xffC41625),
+            title: const Text(
+              'Informe Simple',
+              style: TextStyle(fontFamily: "Montserrat-Regular"),
+            ),
+            leading: Radio<SingingCharacter>(
+              value: SingingCharacter.simple,
+              groupValue: _character,
+              onChanged: (value) {
+                setState(() {
+                  _character = value!;
+                  tipo_informe = "SM";
+                });
+              },
+            ),
+          )
+        : SizedBox();
+    Widget _info_consolidado = (informeConsolidadoCC == 1)
+        ? ListTile(
+            selectedTileColor: Color(0xffC41625),
+            title: const Text(
+              'Informe Consolidado',
+              style: TextStyle(fontFamily: "Montserrat-Regular"),
+            ),
+            leading: Radio<SingingCharacter>(
+              value: SingingCharacter.consolidado,
+              groupValue: _character,
+              onChanged: (value) {
+                setState(() {
+                  _character = value!;
+                  tipo_informe = "C";
+                });
+              },
+            ),
+          )
+        : SizedBox();
+    Widget _info_full = (informeFullCC == 1)
+        ? ListTile(
+            selectedTileColor: Color(0xffC41625),
+            title: const Text(
+              'Informe Empresarial',
+              style: TextStyle(fontFamily: "Montserrat-Regular"),
+            ),
+            leading: Radio<SingingCharacter>(
+              value: SingingCharacter.empresarial,
+              groupValue: _character,
+              onChanged: (value) {
+                setState(() {
+                  _character = value!;
+                  tipo_informe = "E";
+                });
+              },
+            ),
+          )
+        : SizedBox();
+    Widget _info_certificado = (informeCertificadoCC == 1)
+        ? ListTile(
+            selectedTileColor: Color(0xffC41625),
+            title: const Text(
+              'Informe Certificado',
+              style: TextStyle(fontFamily: "Montserrat-Regular"),
+            ),
+            leading: Radio<SingingCharacter>(
+              value: SingingCharacter.certificado,
+              groupValue: _character,
+              onChanged: (value) {
+                setState(() {
+                  _character = value!;
+                  tipo_informe = "A";
+                });
+              },
+            ),
+          )
+        : SizedBox();
+    Widget _info_os10 = (informeOs10CC == 1)
+        ? ListTile(
+            selectedTileColor: Color(0xffC41625),
+            title: const Text(
+              'Informe OS10',
+              style: TextStyle(fontFamily: "Montserrat-Regular"),
+            ),
+            leading: Radio<SingingCharacter>(
+              value: SingingCharacter.os10,
+              groupValue: _character,
+              onChanged: (value) {
+                setState(() {
+                  _character = value!;
+                  tipo_informe = "S";
+                });
+              },
+            ),
+          )
+        : SizedBox();
+
+    Widget _texto_fallo = (informemensajeCC == 1)
+        ? Text(
+            '* Disculpe pero no tiene autorizacion para emitir informes mediante esta plataforma, para mayor informacio debe comunicarce con Soporte tecnico.',
+            style: TextStyle(
+                fontFamily: "Montserrat-Regular", fontWeight: FontWeight.bold),
+          )
+        : SizedBox();
+
+    tipo_informe = "";
+    informeSimple = _info_simpl;
+    informeCertificado = _info_certificado;
+    informeConsolidado = _info_consolidado;
+    informeFull = _info_full;
+    informeOs10 = _info_os10;
+    texto_fallo = _texto_fallo;
+
     return Column(
       children: [
         TextField(
@@ -503,6 +529,7 @@ class _HomeAppState extends State<HomeApp> {
         informeFull,
         informeCertificado,
         informeOs10,
+        texto_fallo,
         Padding(
           padding: EdgeInsets.symmetric(vertical: 10.0),
           child: RaisedButton(
@@ -525,7 +552,8 @@ class _HomeAppState extends State<HomeApp> {
                       context, "No hay informes seleccionado. ");
                 } else {
                   if (RutHelper.Check(rut_cliente)) {
-                    enviarAPI(tipo_informe, email, telefono, rut_cliente);
+                    enviarAPI22();
+                    //enviarAPI(tipo_informe, email, telefono, rut_cliente);
                   } else {
                     Alertas.alerta.datoIncompletos(
                         context, "El RUT indicado es incorrecto.");
